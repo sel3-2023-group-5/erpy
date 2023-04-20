@@ -81,7 +81,7 @@ class ContinuousParameter(Parameter):
         if self._value is None:
             self.set_random_value()
 
-        self._value = np.clip(self._value, self.low, self.high)
+        # self._value = np.clip(self._value, self.low, self.high)
         return self._value
 
     @value.setter
@@ -90,6 +90,7 @@ class ContinuousParameter(Parameter):
 
     def set_random_value(self) -> None:
         self._value = random_state.uniform(low=self.low, high=self.high)
+        self._value = np.clip(self._value, self.low, self.high)
 
 
 class RangeParameter(Parameter):
