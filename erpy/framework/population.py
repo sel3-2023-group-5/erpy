@@ -135,3 +135,7 @@ class Population(metaclass=abc.ABCMeta):
 
     def get_next_child_id(self) -> int:
         return next(self._genome_indexer)
+
+    @all_time_best_evaluation_result.setter
+    def all_time_best_evaluation_result(self, value):
+        self._all_time_best_evaluation_result = value
