@@ -23,6 +23,7 @@ class PopulationConfig:
 
 
 class Population(metaclass=abc.ABCMeta):
+    _all_time_best_evaluation_result: evaluator.EvaluationResult = None
     def __init__(self, config: EAConfig) -> None:
         self._ea_config = config
         self._config = config.population_config
@@ -41,7 +42,7 @@ class Population(metaclass=abc.ABCMeta):
 
         # This should hold the evaluation result of every genome in genomes after Evaluation
         self.evaluation_results: List[evaluator.EvaluationResult] = list()
-        self._all_time_best_evaluation_result: evaluator.EvaluationResult = None
+        # self._all_time_best_evaluation_result: evaluator.EvaluationResult = None
 
     @property
     def logging_data(self) -> Dict[str, Any]:
@@ -49,7 +50,7 @@ class Population(metaclass=abc.ABCMeta):
 
     @property
     def all_time_best_evaluation_result(self) -> evaluator.EvaluationResult:
-        return self._all_time_best_evaluation_result
+        return Population._all_time_best_evaluation_result
 
     @property
     def saving_data(self) -> Dict[str, Any]:
@@ -131,11 +132,11 @@ class Population(metaclass=abc.ABCMeta):
             self.under_evaluation.remove(evaluation_result.genome.genome_id)
             if self.all_time_best_evaluation_result is None or \
                     self.all_time_best_evaluation_result.fitness < evaluation_result.fitness:
-                self._all_time_best_evaluation_result = evaluation_result
+                Population._all_time_best_evaluation_result = evaluation_result
 
     def get_next_child_id(self) -> int:
         return next(self._genome_indexer)
 
-    @all_time_best_evaluation_result.setter
-    def all_time_best_evaluation_result(self, value):
-        self._all_time_best_evaluation_result = value
+    @staticmethod
+    def reset_all_time_best_evaluation_result():
+        Population._all_time_best_evaluation_result = None
