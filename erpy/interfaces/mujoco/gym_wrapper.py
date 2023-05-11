@@ -161,7 +161,7 @@ class DMC2GymWrapper(core.Env):
         self.observation_space.seed(seed)
 
     def step(self, action: np.ndarray):
-        action = action.clip(min=self.action_space.low, max=self.action_space.high)
+        # action = action.clip(min=self.action_space.low, max=self.action_space.high)
         reward = 0
         time_step = self._env.step(action)
         info = {}
