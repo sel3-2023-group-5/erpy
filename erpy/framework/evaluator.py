@@ -20,6 +20,7 @@ if TYPE_CHECKING:
 class EvaluationResult:
     genome: genome.Genome
     fitness: float
+    normalized_fitness: float
     info: Dict[str, Any]
 
 
