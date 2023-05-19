@@ -131,7 +131,7 @@ class Population(metaclass=abc.ABCMeta):
             self.genomes[evaluation_result.genome.genome_id] = evaluation_result.genome
             self.under_evaluation.remove(evaluation_result.genome.genome_id)
             if self.all_time_best_evaluation_result is None or \
-                    self.all_time_best_evaluation_result.fitness < evaluation_result.fitness:
+                    self.all_time_best_evaluation_result.normalized_fitness < evaluation_result.normalized_fitness:
                 Population._all_time_best_evaluation_result = evaluation_result
 
     def get_next_child_id(self) -> int:
