@@ -45,7 +45,7 @@ class RayDistributedEvaluator(Evaluator):
     def __init__(self, config: EAConfig) -> None:
         super(RayDistributedEvaluator, self).__init__(config=config)
 
-        self.pool: ActorPool
+        self.pool: ActorPool = None
         self._configure_ray()
         self._build_pool()
 
