@@ -82,6 +82,7 @@ def ray_controller_learning_evaluation_actor_factory(config: EAConfig) -> Type[E
             post_learn_reward = self._evaluate_controller(robot)
 
             evaluation_result = EvaluationResult(genome=genome, fitness=post_learn_reward,
+                                                 normalized_fitness=post_learn_reward,
                                                  info={"episode_failures": {"physics": 0,
                                                                             "validity": 0},
                                                        "rewards": {"pre_learn": pre_learn_reward,

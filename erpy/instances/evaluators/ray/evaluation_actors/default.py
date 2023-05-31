@@ -110,6 +110,7 @@ def ray_default_evaluation_actor_factory(config: EAConfig) -> Type[EvaluationAct
             env.close()
             fitness = self.config.episode_aggregator(episode_fitnesses)
             evaluation_result = EvaluationResult(genome=genome, fitness=fitness,
+                                                 normalized_fitness=fitness,
                                                  info={"episode_failures": {"physics": physics_failures,
                                                                             "validity": validity_failures}})
             self._callback.update_evaluation_result(evaluation_result)
