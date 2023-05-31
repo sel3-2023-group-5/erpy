@@ -38,7 +38,7 @@ class WandBLoggerConfig(LoggerConfig):
         return WandBLogger
 
 
-def wandb_log_values(run: WandBRun, name: str, values: List[float], step: int) -> None:
+def wandb_log_values(run: WandBRun, name: str, values: List[float] | np.ndarray, step: int) -> None:
     run.log({f'{name}_max': np.max(values),
              f'{name}_min': np.min(values),
              f'{name}_mean': np.mean(values),

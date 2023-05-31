@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import abc
-from typing import Iterable, List, Optional, T
+from typing import Iterable, List, Optional, TypeVar
 
 import numpy as np
 
 from erpy import random_state
+
+T = TypeVar('T')
 
 
 class Parameter(metaclass=abc.ABCMeta):
@@ -170,6 +172,7 @@ class MultiDiscreteParameter(Parameter):
         num_parameters = random_state.randint(low=self.min_size, high=self.max_size + 1)
         self._value = random_state.choice(a=self.options, size=num_parameters, replace=False)
 
+
 class TendonSynchronizedParameter(FixedParameter):
     def __init__(self, linked_parameter: Parameter) -> None:
         super().__init__(linked_parameter.value)
@@ -190,3 +193,22 @@ class TendonSynchronizedParameter(FixedParameter):
     @value.setter
     def value(self, value) -> None:
         raise TypeError("Cannot set the value of a SynchronizedParameter directly.")
+
+
+class WritableFixedParameter(FixedParameter):
+    def __init__(self, value: T) -> None:
+        super().__init__(value)
+
+    @property
+    def value(self) -> T:
+        return self._value
+
+    def __eq__(self, other: Parameter) -> bool:
+        eq = self.value == other.value
+        if isinstance(eq, Iterable):
+            eq = all(eq)
+        return eq
+
+    @value.setter
+    def value(self, value) -> None:
+        self._value = value

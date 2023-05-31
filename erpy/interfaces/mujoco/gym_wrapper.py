@@ -218,7 +218,7 @@ class DMC2GymWrapper(core.Env):
 
 class HistoryWrapper(gym.Wrapper):
     """
-    Stack past observations and actions to give an history to the agent.
+    Stack past observations and actions to give a history to the agent.
     :param env:
     :param horizon:Number of steps to keep in the history.
     """
