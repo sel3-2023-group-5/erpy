@@ -32,6 +32,9 @@ class Parameter(metaclass=abc.ABCMeta):
 
 
 class FixedParameter(Parameter):
+    def set_random_value(self) -> None:
+        raise TypeError("Cannot change the value of a FixedParameter.")
+
     def __init__(self, value: T) -> None:
         super().__init__(value)
 
@@ -166,3 +169,24 @@ class MultiDiscreteParameter(Parameter):
     def set_random_value(self) -> None:
         num_parameters = random_state.randint(low=self.min_size, high=self.max_size + 1)
         self._value = random_state.choice(a=self.options, size=num_parameters, replace=False)
+
+class TendonSynchronizedParameter(FixedParameter):
+    def __init__(self, linked_parameter: Parameter) -> None:
+        super().__init__(linked_parameter.value)
+        self._linked_parameter = linked_parameter
+
+    @property
+    def value(self) -> T:
+        v = [self._linked_parameter.value[0]]
+        v.extend([self._linked_parameter.value[i] for i in range(len(self._linked_parameter.value)-1, 0, -1)])
+        return v
+
+    def __eq__(self, other: Parameter) -> bool:
+        eq = self.value == other.value
+        if isinstance(eq, Iterable):
+            eq = all(eq)
+        return eq
+
+    @value.setter
+    def value(self, value) -> None:
+        raise TypeError("Cannot set the value of a SynchronizedParameter directly.")
